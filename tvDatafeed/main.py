@@ -372,16 +372,28 @@ class TvDatafeed:
             for xi in x:
                 xi = re.split("\[|:|,|\]", xi)
                 ts = datetime.datetime.fromtimestamp(float(xi[4]))
-                data.append(
-                    [
-                        ts,
-                        float(xi[5]),
-                        float(xi[6]),
-                        float(xi[7]),
-                        float(xi[8]),
-                        float(xi[9]),
-                    ]
-                )
+                if xi[9] not in ['}', '']:
+                    data.append(
+                        [
+                            ts,
+                            float(xi[5]),
+                            float(xi[6]),
+                            float(xi[7]),
+                            float(xi[8]),
+                            float(xi[9]),
+                        ]
+                    )
+                else:
+                    data.append(
+                        [
+                            ts,
+                            float(xi[5]),
+                            float(xi[6]),
+                            float(xi[7]),
+                            float(xi[8]),
+                            float(0),
+                        ]
+                    )
 
             data = pd.DataFrame(
                 data, columns=["datetime", "open", "high", "low", "close", "volume"]
